@@ -1,0 +1,20 @@
+---
+- name: Converge
+  hosts: all
+  module_defaults:
+    ansible.builtin.setup:
+      gather_subset:
+        - 'min'
+        # - 'all'
+        # - '!network'
+        # - '!hardware'
+  gather_facts: true
+  environment:
+    HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default=omit) }}"
+    HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY', default=omit) }}"
+    http_proxy: "{{ lookup('env', 'http_proxy', default=omit) }}"
+    https_proxy: "{{ lookup('env', 'https_proxy', default=omit) }}"
+  tasks:
+    - name: "Include nakahiro386.system.locale"
+      ansible.builtin.include_role:
+        name: "nakahiro386.system.locale"
