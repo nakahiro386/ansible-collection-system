@@ -20,3 +20,8 @@
         name: "nakahiro386.system.locale"
         apply:
           become: true
+    - name: "Include nakahiro386.system.timezone"
+      ansible.builtin.include_role:
+        name: "nakahiro386.system.timezone"
+        apply:
+          become: true

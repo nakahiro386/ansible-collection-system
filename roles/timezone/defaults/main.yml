@@ -1,0 +1,9 @@
+---
+# defaults file for timezone
+timezone: "Asia/Tokyo"
+timezone_package:
+  - "tzdata"
+
+package_update_cache: true
+package_cache_valid_time: 3600
+package_install_recommends: no

@@ -1,0 +1,26 @@
+---
+# tasks file for timezone
+- name: Timezone tasks
+  tags:
+    - timezone
+    - config
+    - system
+  when: ansible_service_mgr == 'systemd'
+  block:
+    - name: Get timezone_list
+      ansible.builtin.command: "timedatectl list-timezones"
+      register: timezone_list
+      check_mode: false
+      changed_when: false
+    - name: Install timezone package
+      ansible.builtin.package:
+        name: "{{ timezone_package }}"
+        state: present
+        update_cache: "{{ package_update_cache }}"
+        cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(package_cache_valid_time, omit) }}"
+        install_recommends: "{{ (ansible_pkg_mgr == 'apt') | ternary(package_install_recommends, omit) }}"
+      when:
+        - timezone not in timezone_list.stdout
+    - name: "Set timezone to {{ timezone }}"
+      community.general.timezone:
+        name: "{{ timezone }}"

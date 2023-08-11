@@ -4,6 +4,7 @@
   gather_facts: false
   vars:
     locale: "ja_JP.UTF-8"
+    timezone: "Asia/Tokyo"
   tasks:
     - name: Check locale
       block:
@@ -19,3 +20,16 @@
               - "'LANG={{ locale }}' in get_locale.stdout"
           when: not ansible_check_mode
 
+    - name: Check timezone
+      block:
+        - name: Get timezone
+          ansible.builtin.command: "timedatectl status"
+          register: get_timezone
+          check_mode: false
+          changed_when: false
+
+        - name: Check timezone
+          ansible.builtin.assert:
+            that:
+              - "'{{ timezone }}' in get_timezone.stdout"
+          when: not ansible_check_mode
