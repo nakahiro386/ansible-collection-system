@@ -13,6 +13,7 @@
     https_proxy: "{{ lookup('env', 'https_proxy', default=omit) }}"
   tasks:
     - name: Remove override_install_langs option
+      become: true
       when:
         - ansible_os_family == 'RedHat'
         - ansible_distribution_major_version|int < 8
@@ -24,10 +25,8 @@
             section: main
             option: override_install_langs
             state: absent
-          notify: Reinstall glibc-common
-  handlers:
-    - name: Reinstall glibc-common
-      ansible.builtin.shell: |
-        yum -y install glibc-common
-        yum -y reinstall glibc-common
-      changed_when: true
+        - name: Reinstall glibc-common
+          ansible.builtin.shell: |
+            yum -y install glibc-common
+            yum -y reinstall glibc-common
+          changed_when: true

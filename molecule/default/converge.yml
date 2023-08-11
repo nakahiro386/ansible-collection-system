@@ -18,3 +18,5 @@
     - name: "Include nakahiro386.system.locale"
       ansible.builtin.include_role:
         name: "nakahiro386.system.locale"
+        apply:
+          become: true

@@ -5,14 +5,17 @@
   vars:
     locale: "ja_JP.UTF-8"
   tasks:
-    - name: Get locale
-      ansible.builtin.command: "localectl status"
-      register: get_locale
-      check_mode: false
-      changed_when: false
-
     - name: Check locale
-      ansible.builtin.assert:
-        that:
-          - "'LANG={{ locale }}' in get_locale.stdout"
-      when: not ansible_check_mode
+      block:
+        - name: Get locale
+          ansible.builtin.command: "localectl status"
+          register: get_locale
+          check_mode: false
+          changed_when: false
+
+        - name: Check locale
+          ansible.builtin.assert:
+            that:
+              - "'LANG={{ locale }}' in get_locale.stdout"
+          when: not ansible_check_mode
+

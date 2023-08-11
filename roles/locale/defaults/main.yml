@@ -4,7 +4,11 @@ locale: "ja_JP.UTF-8"
 lang_packs_ubuntu_22:
   - 'language-pack-ja'
 lang_packs_centos_7: []
+lang_packs_oraclelinux_7: []
 lang_packs_centos_8:
+  - 'langpacks-ja'
+  - 'glibc-langpack-ja'
+lang_packs_oraclelinux_8:
   - 'langpacks-ja'
   - 'glibc-langpack-ja'
 
