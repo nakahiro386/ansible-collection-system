@@ -1,0 +1,4 @@
+# This file contains ignores rule violations for ansible-lint
+molecule/default/prepare.yml command-instead-of-module
+roles/locale/defaults/main.yml var-naming[no-role-prefix]
+roles/timezone/defaults/main.yml var-naming[no-role-prefix]
