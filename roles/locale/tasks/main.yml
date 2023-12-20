@@ -9,18 +9,18 @@
   block:
     - name: Set _lang_packs
       ansible.builtin.set_fact:
-        _lang_packs: "{{ lookup('vars', 'lang_packs_' + (ansible_distribution | lower) + '_' + ansible_distribution_major_version) }}"
+        _lang_packs: "{{ lookup('vars', 'locale_lang_packs_' + (ansible_distribution | lower) + '_' + ansible_distribution_major_version) }}"
     - name: Install _lang_packs
       ansible.builtin.package:
         name: "{{ _lang_packs }}"
         state: present
-        update_cache: "{{ package_update_cache }}"
-        cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(package_cache_valid_time, omit) }}"
-        install_recommends: "{{ (ansible_pkg_mgr == 'apt') | ternary(package_install_recommends, omit) }}"
+        update_cache: "{{ locale_package_update_cache }}"
+        cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(locale_package_cache_valid_time, omit) }}"
+        install_recommends: "{{ (ansible_pkg_mgr == 'apt') | ternary(locale_package_install_recommends, omit) }}"
 
     - name: Ensure a locale exists.
       community.general.locale_gen:
-        name: "{{ locale }}"
+        name: "{{ locale_locale }}"
         state: present
       when:
         - ansible_distribution == 'Ubuntu'
@@ -35,7 +35,7 @@
         - name: Get locale list
           ansible.builtin.shell: |
             set -o pipefail
-            locale -a | grep -i {{ locale | regex_replace('-', '') | quote }}
+            locale -a | grep -i {{ locale_locale | regex_replace('-', '') | quote }}
           register: get_locale_list
           check_mode: false
           changed_when: false
@@ -43,7 +43,7 @@
 
         - name: Create locale
           ansible.builtin.command: |
-            localedef -i {{ locale | regex_replace('(.*)\\..*', '\\1') | quote }} -f {{ locale | regex_replace('.*\\.(.*)', '\\1') | quote }} {{ locale | quote }}
+            localedef -i {{ locale_locale | regex_replace('(.*)\\..*', '\\1') | quote }} -f {{ locale_locale | regex_replace('.*\\.(.*)', '\\1') | quote }} {{ locale_locale | quote }}
           changed_when: true
           when:
             - get_locale_list.rc != 0
@@ -56,12 +56,12 @@
 
     - name: Set locale_status
       ansible.builtin.set_fact:
-        locale_status: "LANG={{ locale }}"
+        locale_status: "LANG={{ locale_locale }}"
       check_mode: false
       changed_when: false
 
-    - name: "Set locale to {{ locale }}"
-      ansible.builtin.command: "localectl set-locale LANG={{ locale }}"
+    - name: "Set locale to {{ locale_locale }}"
+      ansible.builtin.command: "localectl set-locale LANG={{ locale_locale }}"
       changed_when: true
       when:
         - locale_status not in get_locale.stdout

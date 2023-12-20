@@ -16,11 +16,11 @@
       ansible.builtin.package:
         name: "{{ timezone_package }}"
         state: present
-        update_cache: "{{ package_update_cache }}"
-        cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(package_cache_valid_time, omit) }}"
-        install_recommends: "{{ (ansible_pkg_mgr == 'apt') | ternary(package_install_recommends, omit) }}"
+        update_cache: "{{ timezone_package_update_cache }}"
+        cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(timezone_package_cache_valid_time, omit) }}"
+        install_recommends: "{{ (ansible_pkg_mgr == 'apt') | ternary(timezone_package_install_recommends, omit) }}"
       when:
-        - timezone not in timezone_list.stdout
-    - name: "Set timezone to {{ timezone }}"
+        - timezone_timezone not in timezone_list.stdout
+    - name: "Set timezone to {{ timezone_timezone }}"
       community.general.timezone:
-        name: "{{ timezone }}"
+        name: "{{ timezone_timezone }}"
