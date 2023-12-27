@@ -1,0 +1,25 @@
+---
+# tasks file for apt_sources
+- name: Configure apt_sources tasks
+  tags:
+    - apt_sources
+    - system
+    - config
+  when:
+    - ansible_pkg_mgr == 'apt'
+    - ansible_distribution == 'Ubuntu'
+  block:
+    - name: Replace sources.list
+      ansible.builtin.replace:
+        dest: "{{ apt_sources_list_path }}"
+        regexp: "{{ apt_sources_list_regexp }}"
+        replace: "{{ apt_sources_list_replace }}"
+        backup: yes
+      register: sources_list
+
+    - name: Update cache if sources.list changed
+      ansible.builtin.apt:
+        update_cache: yes
+      when:
+        - not ansible_check_mode
+        - sources_list.changed

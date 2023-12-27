@@ -1,0 +1,5 @@
+---
+# defaults file for apt_sources
+apt_sources_list_path: "/etc/apt/sources.list"
+apt_sources_list_regexp: "http://[^ ]*archive.ubuntu.com/ubuntu/"
+apt_sources_list_replace: "http://jp.archive.ubuntu.com/ubuntu/"

@@ -1,0 +1,14 @@
+galaxy_info:
+  author: nakahiro386
+  description: Configure apt sources
+  license: MIT
+  min_ansible_version: '2.15.2'
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+  galaxy_tags:
+    - system
+    - config
+    - apt
+dependencies: []
