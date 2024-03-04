@@ -1,0 +1,108 @@
+---
+# tasks file for docker_ce
+- name: Add Docker yum repository tasks
+  tags:
+    - docker_ce
+    - system
+    - config
+  when:
+    - ansible_os_family == 'RedHat'
+  block:
+    - name: Add Docker GPG key
+      ansible.builtin.rpm_key:
+        state: present
+        key: "{{ docker_ce_centos_gpg_key }}"
+        fingerprint: "{{ docker_ce_centos_gpg_fingerprint }}"
+    - name: Add Docker yum repository
+      ansible.builtin.get_url:
+        url: "{{ docker_ce_centos_repo_url }}"
+        dest: /etc/yum.repos.d/docker-ce.repo
+        checksum: "{{ docker_ce_centos_repo_checksum }}"
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
+    - name: Add Oracle Linux developer repository
+      ansible.builtin.yum_repository:
+        name: oracle-developer-ol7
+        baseurl: http://yum.oracle.com/repo/OracleLinux/OL7/developer/$basearch
+        description: Packages for test and development - Oracle Linux 7 (x86_64)
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
+      when:
+        - ansible_distribution == 'OracleLinux'
+        - ansible_distribution_major_version == '7'
+
+- name: Add Docker apt repository tasks
+  tags:
+    - docker_ce
+    - system
+    - config
+  when:
+    - ansible_distribution == 'Ubuntu'
+  block:
+    - name: Add Docker apt repository
+      ansible.builtin.deb822_repository:
+        name: "docker-ce"
+        state: present
+        types: deb
+        uris: "{{ docker_ce_apt_repo_url }}"
+        suites: "{{ ansible_distribution_release }}"
+        components: stable
+        architectures: "{{ docker_ce_deb_architecture[ansible_architecture] }}"
+        signed_by: "{{ docker_ce_apt_gpg_key }}"
+      register: apt_repository
+      ignore_errors: "{{ ansible_check_mode }}"
+
+    - name: Update cache if apt_repository changed
+      ansible.builtin.apt:
+        update_cache: yes
+      when:
+        - not ansible_check_mode
+        - apt_repository.changed
+
+- name: Install Docker CE
+  tags:
+    - docker_ce
+    - system
+    - config
+  block:
+    - name: Install docker package
+      ansible.builtin.package:
+        name: "{{ docker_ce_packages }}"
+        state: present
+      notify: Restarted docker.service
+      ignore_errors: "{{ ansible_check_mode }}"
+
+    - name: Create /etc/docker/daemon.json
+      ansible.builtin.copy:
+        content: "{{ docker_ce_daemon_json_value | to_json(indent=2, sort_keys=True) }}"
+        dest: /etc/docker/daemon.json
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
+      notify: Restarted docker.service
+      ignore_errors: "{{ ansible_check_mode }}"
+
+    - name: Create /etc/systemd/system/docker.service.d
+      ansible.builtin.file:
+        path: /etc/systemd/system/docker.service.d
+        state: directory
+        owner: root
+        group: root
+        mode: "u=rwx,g=rx,o=rx"
+
+    - name: Deploy /etc/systemd/system/docker.service.d/override.conf
+      ansible.builtin.template:
+        src: ./etc/systemd/system/docker.service.d/override.conf
+        dest: /etc/systemd/system/docker.service.d/override.conf
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
+
+    - name: Enabled and started docker.service
+      ansible.builtin.service:
+        name: docker.service
+        enabled: yes
+        state: started
+      ignore_errors: "{{ ansible_check_mode }}"

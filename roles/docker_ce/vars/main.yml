@@ -1,0 +1,9 @@
+---
+# vars file for docker_ce
+
+docker_ce_deb_architecture:
+  x86_64: amd64
+  i386: i386
+  armv6l: armhf
+  armv7l: armhf
+  aarch64: arm64

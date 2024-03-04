@@ -23,6 +23,8 @@
         uris: "https://ppa.launchpadcontent.net/git-core/ppa/ubuntu"
         components: main
         signed_by: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE1DD270288B4E6030699E45FA1715D88E1DF1F24"
+    docker_ce_daemon_json_value:
+      exec-opts: ["native.cgroupdriver=systemd"]
   environment:
     FPT_PROXY: "{{ lookup('env', 'FPT_PROXY', default=omit) }}"
     HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default=omit) }}"
@@ -56,5 +58,10 @@
     - name: "Include nakahiro386.system.timezone"
       ansible.builtin.include_role:
         name: "nakahiro386.system.timezone"
+        apply:
+          become: true
+    - name: "Include nakahiro386.system.docker_ce"
+      ansible.builtin.include_role:
+        name: "nakahiro386.system.docker_ce"
         apply:
           become: true

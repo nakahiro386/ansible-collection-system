@@ -1,0 +1,18 @@
+---
+# defaults file for docker_ce
+docker_ce_centos_gpg_key: "https://download.docker.com/linux/centos/gpg"
+docker_ce_centos_gpg_fingerprint: "060A 61C5 1B55 8A7F 742B 77AA C52F EB6B 621E 9F35"
+docker_ce_centos_repo_url: "https://download.docker.com/linux/centos/docker-ce.repo"
+docker_ce_centos_repo_checksum: "sha256:8ab5599eef0afcac10cbd3e8670873efee20fcceb5fb3526a62edeade603cec7"
+
+docker_ce_apt_repo_url: "https://download.docker.com/linux/ubuntu"
+docker_ce_apt_gpg_key: "https://download.docker.com/linux/ubuntu/gpg"
+
+docker_ce_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
+
+docker_ce_daemon_json_value: {}
