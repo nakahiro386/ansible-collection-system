@@ -9,12 +9,30 @@
         # - '!network'
         # - '!hardware'
   gather_facts: true
-  environment:
+  vars:
+    FPT_PROXY: "{{ lookup('env', 'FPT_PROXY', default=omit) }}"
     HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default=omit) }}"
     HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY', default=omit) }}"
+    NO_PROXY: "{{ lookup('env', 'NO_PROXY', default=omit) }}"
+    fpt_proxy: "{{ lookup('env', 'fpt_proxy', default=omit) }}"
     http_proxy: "{{ lookup('env', 'http_proxy', default=omit) }}"
     https_proxy: "{{ lookup('env', 'https_proxy', default=omit) }}"
+    no_proxy: "{{ lookup('env', 'no_proxy', default=omit) }}"
+  environment:
+    FPT_PROXY: "{{ lookup('env', 'FPT_PROXY', default=omit) }}"
+    HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default=omit) }}"
+    HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY', default=omit) }}"
+    NO_PROXY: "{{ lookup('env', 'NO_PROXY', default=omit) }}"
+    fpt_proxy: "{{ lookup('env', 'fpt_proxy', default=omit) }}"
+    http_proxy: "{{ lookup('env', 'http_proxy', default=omit) }}"
+    https_proxy: "{{ lookup('env', 'https_proxy', default=omit) }}"
+    no_proxy: "{{ lookup('env', 'no_proxy', default=omit) }}"
   tasks:
+    - name: "Include nakahiro386.system.proxy"
+      ansible.builtin.include_role:
+        name: "nakahiro386.system.proxy"
+        apply:
+          become: true
     - name: "Include nakahiro386.system.apt_sources"
       ansible.builtin.include_role:
         name: "nakahiro386.system.apt_sources"

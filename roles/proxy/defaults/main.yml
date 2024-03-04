@@ -1,0 +1,8 @@
+---
+# defaults file for proxy
+proxy_pkg_mgr_config_file_path_apt: '/etc/apt/apt.conf.d/90curtin-aptproxy'
+proxy_pkg_mgr_config_file_path_yum: '/etc/yum.conf'
+proxy_pkg_mgr_config_file_path_dnf: '/etc/dnf/dnf.conf'
+proxy_pkg_mgr_ini_config:
+  proxy: "{{ http_proxy }}"
+  timeout: 300

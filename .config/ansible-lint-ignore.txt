@@ -1,2 +1,4 @@
 # This file contains ignores rule violations for ansible-lint
+molecule/default/converge.yml var-naming[pattern]
 molecule/default/prepare.yml command-instead-of-module
+roles/proxy/tasks/main.yml risky-file-permissions

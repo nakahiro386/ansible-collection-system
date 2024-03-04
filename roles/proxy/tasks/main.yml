@@ -1,0 +1,51 @@
+---
+# tasks file for proxy
+- name: Deploy proxy config
+  tags: proxy
+  when:
+    - HTTP_PROXY is defined or http_proxy is defined
+  block:
+    - name: Deploy /etc/profile.d/export_proxy.sh
+      ansible.builtin.template:
+        src: ./etc/profile.d/export_proxy.sh
+        dest: /etc/profile.d/export_proxy.sh
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
+
+    - name: Copy proxy env_kepp to  /etc/sudoers.d/proxy
+      ansible.builtin.copy:
+        src: ./etc/sudoers.d/proxy
+        dest: /etc/sudoers.d/proxy
+        owner: root
+        group: root
+        mode: "u=r,g=r,o="
+        validate: /usr/sbin/visudo -csf %s
+
+    - name: Set package manager config file path
+      ansible.builtin.set_fact:
+        _pkg_mgr_config_file_path: "{{ vars['proxy_pkg_mgr_config_file_path_' + ansible_pkg_mgr] }}"
+      check_mode: no
+      changed_when: no
+
+    - name: Deploy /etc/apt/apt.conf.d/90curtin-aptproxy
+      ansible.builtin.template:
+        src: ".{{ _pkg_mgr_config_file_path }}"
+        dest: "{{ _pkg_mgr_config_file_path }}"
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
+      when:
+        - ansible_pkg_mgr == 'apt'
+        - ansible_distribution == 'Ubuntu'
+
+    - name: Set RedHat package manager proxy config
+      community.general.ini_file:
+        path: ".{{ _pkg_mgr_config_file_path }}"
+        section: main
+        option: "{{ item.key }}"
+        value: "{{ item.value }}"
+        no_extra_spaces: yes
+      with_dict: "{{ proxy_pkg_mgr_ini_config }}"
+      when:
+        - ansible_os_family == 'RedHat'
