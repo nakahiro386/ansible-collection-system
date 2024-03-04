@@ -1,0 +1,37 @@
+---
+# tasks file for apt_ppa_repository
+- name: Add apt ppa repository
+  tags:
+    - apt_ppa_repository
+    - system
+    - config
+  when:
+    - ansible_pkg_mgr == 'apt'
+    - ansible_distribution == 'Ubuntu'
+  block:
+    - name: Install deb822_repository requirement packages
+      ansible.builtin.apt:
+        name: "{{ apt_ppa_repository_requirement_packages }}"
+        state: present
+        install_recommends: no
+
+    - name: Add apt ppa repository
+      ansible.builtin.deb822_repository:
+        name: "{{ item.name }}"
+        state: present
+        types: deb
+        uris: "{{ item.uris }}"
+        suites: "{{ ansible_distribution_release }}"
+        components: "{{ item.components }}"
+        architectures: "{{ apt_ppa_repository_deb_architecture[ansible_architecture] }}"
+        signed_by: "{{ item.signed_by }}"
+      register: ppa_repository
+      with_items: "{{ apt_ppa_repository_repositories }}"
+      ignore_errors: "{{ ansible_check_mode }}"
+
+    - name: Update cache if ppa_repository changed
+      ansible.builtin.apt:
+        update_cache: yes
+      when:
+        - not ansible_check_mode
+        - ppa_repository.changed

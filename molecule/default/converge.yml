@@ -18,6 +18,11 @@
     http_proxy: "{{ lookup('env', 'http_proxy', default=omit) }}"
     https_proxy: "{{ lookup('env', 'https_proxy', default=omit) }}"
     no_proxy: "{{ lookup('env', 'no_proxy', default=omit) }}"
+    apt_ppa_repository_repositories:
+      - name: "git-core-ubuntu-ppa-{{ ansible_distribution_release }}"
+        uris: "https://ppa.launchpadcontent.net/git-core/ppa/ubuntu"
+        components: main
+        signed_by: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE1DD270288B4E6030699E45FA1715D88E1DF1F24"
   environment:
     FPT_PROXY: "{{ lookup('env', 'FPT_PROXY', default=omit) }}"
     HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default=omit) }}"
@@ -36,6 +41,11 @@
     - name: "Include nakahiro386.system.apt_sources"
       ansible.builtin.include_role:
         name: "nakahiro386.system.apt_sources"
+        apply:
+          become: true
+    - name: "Include nakahiro386.system.apt_ppa_repository"
+      ansible.builtin.include_role:
+        name: "nakahiro386.system.apt_ppa_repository"
         apply:
           become: true
     - name: "Include nakahiro386.system.locale"

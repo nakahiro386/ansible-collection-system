@@ -1,0 +1,6 @@
+---
+# defaults file for apt_ppa_repository
+apt_ppa_repository_requirement_packages:
+  - ca-certificates
+  - python3-debian
+apt_ppa_repository_repositories: []
