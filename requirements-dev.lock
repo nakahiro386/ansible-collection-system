@@ -5,57 +5,138 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
 
--e file:.
 aiohttp==3.9.1
+    # via black
 aiosignal==1.3.1
-ansible==9.1.0
-ansible-compat==4.1.10
-ansible-core==2.16.2
-ansible-lint==6.22.1
+    # via aiohttp
+ansible==9.3.0
+ansible-compat==4.1.11
+    # via ansible-lint
+    # via molecule
+ansible-core==2.16.4
+    # via ansible
+    # via ansible-compat
+    # via ansible-lint
+    # via molecule
+ansible-lint==24.2.0
 attrs==23.1.0
+    # via aiohttp
+    # via jsonschema
+    # via referencing
 black==23.12.0
+    # via ansible-lint
 bracex==2.4
+    # via wcmatch
 certifi==2023.11.17
+    # via requests
 cffi==1.16.0
+    # via cryptography
 charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
+    # via black
+    # via click-help-colors
+    # via molecule
 click-help-colors==0.9.4
+    # via molecule
 cryptography==41.0.7
+    # via ansible-core
 distro==1.8.0
+    # via selinux
 docker==7.0.0
+    # via molecule-plugins
 dotenv-cli==3.2.2
 enrich==1.2.7
+    # via molecule
 filelock==3.13.1
+    # via ansible-lint
 frozenlist==1.4.1
+    # via aiohttp
+    # via aiosignal
 idna==3.6
+    # via requests
+    # via yarl
 jinja2==3.1.2
+    # via ansible-core
+    # via molecule
 jsonschema==4.20.0
+    # via ansible-compat
+    # via ansible-lint
+    # via molecule
 jsonschema-specifications==2023.11.2
+    # via jsonschema
 markdown-it-py==3.0.0
+    # via rich
 markupsafe==2.1.3
+    # via jinja2
 mdurl==0.1.2
-molecule==6.0.3
-molecule-plugins==23.5.0
+    # via markdown-it-py
+molecule==24.2.0
+    # via molecule-plugins
+molecule-plugins==23.5.3
 multidict==6.0.4
+    # via aiohttp
+    # via yarl
 mypy-extensions==1.0.0
+    # via black
 packaging==23.2
+    # via ansible-compat
+    # via ansible-core
+    # via ansible-lint
+    # via black
+    # via docker
+    # via molecule
 pathspec==0.12.1
+    # via ansible-lint
+    # via black
+    # via yamllint
 platformdirs==4.1.0
+    # via black
 pluggy==1.3.0
+    # via molecule
 pycparser==2.21
+    # via cffi
 pygments==2.17.2
+    # via rich
 pyyaml==6.0.1
+    # via ansible-compat
+    # via ansible-core
+    # via ansible-lint
+    # via molecule
+    # via yamllint
 referencing==0.32.0
+    # via jsonschema
+    # via jsonschema-specifications
 requests==2.31.0
+    # via docker
+    # via molecule-plugins
 resolvelib==1.0.1
+    # via ansible-core
 rich==13.7.0
+    # via ansible-lint
+    # via enrich
+    # via molecule
 rpds-py==0.14.1
+    # via jsonschema
+    # via referencing
 ruamel-yaml==0.18.5
+    # via ansible-lint
 ruamel-yaml-clib==0.2.8
+    # via ruamel-yaml
 selinux==0.3.0
+    # via molecule-plugins
 subprocess-tee==0.4.1
+    # via ansible-compat
+    # via ansible-lint
 urllib3==2.1.0
+    # via docker
+    # via requests
 wcmatch==8.5
+    # via ansible-lint
+    # via molecule
 yamllint==1.33.0
+    # via ansible-lint
 yarl==1.9.4
+    # via aiohttp
