@@ -6,16 +6,14 @@ authors = [
     { name = "nakahiro386", email = "nakahiro386@gmail.com" }
 ]
 dependencies = []
+
 readme = "README.md"
 requires-python = ">= 3.11"
 classifiers = ["Private :: Do Not Upload"]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [tool.rye]
 managed = true
+virtual = true
 dev-dependencies = [
     "ansible>=9.1.0",
     "ansible-lint>=6.22.1",
@@ -23,9 +21,6 @@ dev-dependencies = [
     "molecule-plugins[docker]>=23.5.0",
     "dotenv-cli>=3.2.2",
 ]
-
-[tool.hatch.metadata]
-allow-direct-references = true
 
 [tool.rye.scripts]
 "lint:yaml" = "dotenv yamllint ."
