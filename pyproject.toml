@@ -23,7 +23,7 @@ dev-dependencies = [
 ]
 
 [tool.rye.scripts]
-"lint:yaml" = "dotenv yamllint ."
+"lint:yaml" = "dotenv yamllint -c .config/yamllint.yml ."
 "lint:ansible" = {cmd = "dotenv ansible-lint"}
 lint = {chain = ["lint:yaml", "lint:ansible"]}
 molecule = {cmd = "dotenv molecule"}

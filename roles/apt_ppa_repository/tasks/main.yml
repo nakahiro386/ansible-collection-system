@@ -13,7 +13,7 @@
       ansible.builtin.apt:
         name: "{{ apt_ppa_repository_requirement_packages }}"
         state: present
-        install_recommends: no
+        install_recommends: false
 
     - name: Add apt ppa repository
       ansible.builtin.deb822_repository:
@@ -31,7 +31,7 @@
 
     - name: Update cache if ppa_repository changed
       ansible.builtin.apt:
-        update_cache: yes
+        update_cache: true
       when:
         - not ansible_check_mode
         - ppa_repository.changed

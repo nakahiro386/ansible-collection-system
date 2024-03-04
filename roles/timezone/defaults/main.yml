@@ -6,4 +6,4 @@ timezone_package:
 
 timezone_package_update_cache: true
 timezone_package_cache_valid_time: 3600
-timezone_package_install_recommends: no
+timezone_package_install_recommends: false

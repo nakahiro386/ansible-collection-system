@@ -14,12 +14,12 @@
         dest: "{{ apt_sources_list_path }}"
         regexp: "{{ apt_sources_list_regexp }}"
         replace: "{{ apt_sources_list_replace }}"
-        backup: yes
+        backup: true
       register: sources_list
 
     - name: Update cache if sources.list changed
       ansible.builtin.apt:
-        update_cache: yes
+        update_cache: true
       when:
         - not ansible_check_mode
         - sources_list.changed

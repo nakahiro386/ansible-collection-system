@@ -25,8 +25,8 @@
     - name: Set package manager config file path
       ansible.builtin.set_fact:
         _pkg_mgr_config_file_path: "{{ vars['proxy_pkg_mgr_config_file_path_' + ansible_pkg_mgr] }}"
-      check_mode: no
-      changed_when: no
+      check_mode: false
+      changed_when: false
 
     - name: Deploy /etc/apt/apt.conf.d/90curtin-aptproxy
       ansible.builtin.template:
@@ -45,7 +45,7 @@
         section: main
         option: "{{ item.key }}"
         value: "{{ item.value }}"
-        no_extra_spaces: yes
+        no_extra_spaces: true
       with_dict: "{{ proxy_pkg_mgr_ini_config }}"
       when:
         - ansible_os_family == 'RedHat'

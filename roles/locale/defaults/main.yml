@@ -14,4 +14,4 @@ locale_lang_packs_oraclelinux_8:
 
 locale_package_update_cache: true
 locale_package_cache_valid_time: 3600
-locale_package_install_recommends: no
+locale_package_install_recommends: false

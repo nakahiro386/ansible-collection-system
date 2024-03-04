@@ -1,0 +1,10 @@
+---
+ignore: |
+  .config/*
+  .git
+  .venv
+
+extends: default
+
+rules:
+  line-length: disable
