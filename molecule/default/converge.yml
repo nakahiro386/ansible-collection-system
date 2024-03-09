@@ -5,6 +5,7 @@
     ansible.builtin.setup:
       gather_subset:
         - 'min'
+        - 'virtual'
         # - 'all'
         # - '!network'
         # - '!hardware'
@@ -25,6 +26,7 @@
         signed_by: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE1DD270288B4E6030699E45FA1715D88E1DF1F24"
     docker_ce_daemon_json_value:
       exec-opts: ["native.cgroupdriver=systemd"]
+    systemd_timesyncd_force_deploy_build_conf: true
   environment:
     FPT_PROXY: "{{ lookup('env', 'FPT_PROXY', default=omit) }}"
     HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default=omit) }}"
@@ -58,6 +60,11 @@
     - name: "Include nakahiro386.system.timezone"
       ansible.builtin.include_role:
         name: "nakahiro386.system.timezone"
+        apply:
+          become: true
+    - name: "Include nakahiro386.systemd_timesyncd"
+      ansible.builtin.include_role:
+        name: "nakahiro386.system.systemd_timesyncd"
         apply:
           become: true
     - name: "Include nakahiro386.system.docker_ce"

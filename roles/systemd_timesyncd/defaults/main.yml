@@ -1,0 +1,14 @@
+---
+# defaults file for systemd_timesyncd
+systemd_timesyncd_config:
+  NTP: ''
+  # FallbackNTP: ntp.ubuntu.com
+  # RootDistanceMaxSec: 5
+  # PollIntervalMinSec: 32
+  # PollIntervalMaxSec: 2048
+
+systemd_timesyncd_apt_update_cache: true
+systemd_timesyncd_apt_cache_valid_time: 3600
+systemd_timesyncd_apt_install_recommends: false
+
+systemd_timesyncd_force_deploy_build_conf: false

@@ -1,0 +1,55 @@
+---
+# tasks file for systemd_timesyncd
+- name: Configure systemd-timesyncd
+  tags:
+    - systemd_timesyncd
+    - system
+    - config
+  when:
+    - ansible_facts['distribution'] == 'Ubuntu'
+  block:
+    - name: Install systemd-timesyncd
+      ansible.builtin.apt:
+        name: systemd-timesyncd
+        state: present
+        update_cache: "{{ systemd_timesyncd_apt_update_cache }}"
+        cache_valid_time: "{{ systemd_timesyncd_apt_cache_valid_time }}"
+        install_recommends: "{{ systemd_timesyncd_apt_install_recommends }}"
+    - name: Configure /etc/systemd/timesyncd.conf
+      community.general.ini_file:
+        path: /etc/systemd/timesyncd.conf
+        section: Time
+        option: "{{ item.key }}"
+        value: "{{ item.value }}"
+        create: false
+        allow_no_value: true
+        no_extra_spaces: true
+      notify: Restart systemd-timesyncd.service
+      with_dict: "{{ systemd_timesyncd_config }}"
+      ignore_errors: "{{ ansible_check_mode }}"
+    - name: Enabled and started systemd-timesyncd
+      ansible.builtin.service:
+        name: systemd-timesyncd
+        enabled: true
+        state: started
+      ignore_errors: "{{ ansible_check_mode }}"
+
+    - name: Enable systemd-timesyncd in WSL
+      when: ('wsl' in ansible_facts['virtualization_tech_guest']) or
+            systemd_timesyncd_force_deploy_build_conf
+      block:
+        - name: Create /etc/systemd/system/systemd-timesyncd.service.d
+          ansible.builtin.file:
+            path: /etc/systemd/system/systemd-timesyncd.service.d
+            state: directory
+            owner: root
+            group: root
+            mode: u=rwx,g=rx,o=rx
+        - name: Deploy /etc/systemd/system/systemd-timesyncd.service.d/override.conf
+          ansible.builtin.copy:
+            src: ./etc/systemd/system/systemd-timesyncd.service.d/override.conf
+            dest: /etc/systemd/system/systemd-timesyncd.service.d/override.conf
+            owner: root
+            group: root
+            mode: u=rw,g=r,o=r
+          notify: Restart systemd-timesyncd.service

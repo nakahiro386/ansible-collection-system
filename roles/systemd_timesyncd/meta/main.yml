@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: nakahiro386
+  description: Configure systemd-timesyncd
+  license: MIT
+  min_ansible_version: '2.15.2'
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+  galaxy_tags:
+    - timesyncd
+    - system
+    - config
+dependencies: []

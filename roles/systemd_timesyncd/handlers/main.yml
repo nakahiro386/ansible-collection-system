@@ -1,0 +1,12 @@
+---
+# handlers file for systemd_timesyncd
+- name: Restart systemd-timesyncd.service
+  ansible.builtin.systemd_service:
+    name: systemd-timesyncd.service
+    state: restarted
+    daemon_reload: true
+  ignore_errors: "{{ ansible_check_mode }}"
+  tags:
+    - systemd_timesyncd
+    - system
+    - config
