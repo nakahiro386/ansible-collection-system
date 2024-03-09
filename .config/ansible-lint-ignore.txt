@@ -2,4 +2,3 @@
 molecule/default/converge.yml var-naming[pattern]
 molecule/default/prepare.yml command-instead-of-module
 roles/locale/tasks/main.yml yaml[line-length]
-roles/proxy/tasks/main.yml risky-file-permissions

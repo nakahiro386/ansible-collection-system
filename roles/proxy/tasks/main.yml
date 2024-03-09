@@ -46,6 +46,9 @@
         option: "{{ item.key }}"
         value: "{{ item.value }}"
         no_extra_spaces: true
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
       with_dict: "{{ proxy_pkg_mgr_ini_config }}"
       when:
         - ansible_os_family == 'RedHat'
