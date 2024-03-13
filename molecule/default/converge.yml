@@ -67,6 +67,11 @@
         name: "nakahiro386.system.systemd_timesyncd"
         apply:
           become: true
+    - name: "Include nakahiro386.journald"
+      ansible.builtin.include_role:
+        name: "nakahiro386.system.journald"
+        apply:
+          become: true
     - name: "Include nakahiro386.system.docker_ce"
       ansible.builtin.include_role:
         name: "nakahiro386.system.docker_ce"

@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: nakahiro386
+  description: Configure journald
+  license: MIT
+  min_ansible_version: '2.15.2'
+  platforms:
+    - name: EL
+      versions:
+        - '7'
+        - '8'
+    - name: Ubuntu
+      versions:
+        - jammy
+  galaxy_tags:
+    - journald
+    - system
+    - config
+dependencies: []

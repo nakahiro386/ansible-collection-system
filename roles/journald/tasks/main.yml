@@ -1,0 +1,22 @@
+---
+# tasks file for journald
+- name: Configure journald
+  tags:
+    - journald
+    - system
+    - config
+  when:
+    - ansible_facts['service_mgr'] == 'systemd'
+  block:
+    - name: Configure /etc/systemd/journald.conf
+      community.general.ini_file:
+        path: /etc/systemd/journald.conf
+        section: Journal
+        option: "{{ item.key }}"
+        value: "{{ item.value }}"
+        create: false
+        allow_no_value: true
+        no_extra_spaces: true
+      notify: Restart systemd-journald.service
+      with_dict: "{{ journald_config }}"
+      ignore_errors: "{{ ansible_check_mode }}"
