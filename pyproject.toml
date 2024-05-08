@@ -19,11 +19,10 @@ dev-dependencies = [
     "ansible-lint~=24.2.0",
     "molecule~=24.2.0",
     "molecule-plugins[docker]~=23.5.3",
-    "dotenv-cli>=3.2.2",
 ]
 
 [tool.rye.scripts]
-"lint:yaml" = "dotenv yamllint -c .config/yamllint.yml ."
-"lint:ansible" = {cmd = "dotenv ansible-lint"}
+"lint:yaml" = "yamllint -c .config/yamllint.yml ."
+"lint:ansible" = {cmd = "ansible-lint"}
 lint = {chain = ["lint:yaml", "lint:ansible"]}
-molecule = {cmd = "dotenv molecule"}
+molecule = {cmd = "molecule"}
