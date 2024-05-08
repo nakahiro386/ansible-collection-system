@@ -5,6 +5,7 @@
     ansible.builtin.setup:
       gather_subset:
         - 'min'
+        - 'virtual'
   gather_facts: true
   environment:
     HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY', default=omit) }}"

@@ -80,6 +80,25 @@ platforms:
       http_proxy: ${http_proxy}
       https_proxy: ${https_proxy}
       no_proxy: ${no_proxy}
+  - name: ubuntu-2404
+    image: nakahiro386/ubuntu2404-systemd:latest
+    command: ""
+    privileged: true
+    pre_build_image: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    environment:
+      FTP_PROXY: ${FTP_PROXY}
+      HTTP_PROXY: ${HTTP_PROXY}
+      HTTPS_PROXY: ${HTTPS_PROXY}
+      NO_PROXY: ${NO_PROXY}
+      ftp_proxy: ${ftp_proxy}
+      http_proxy: ${http_proxy}
+      https_proxy: ${https_proxy}
+      no_proxy: ${no_proxy}
 provisioner:
   name: ansible
   env:
@@ -106,6 +125,8 @@ provisioner:
       oraclelinux-8:
         ansible_user: ansible
       ubuntu-2204:
+        ansible_user: ansible
+      ubuntu-2404:
         ansible_user: ansible
 verifier:
   name: ansible

@@ -15,7 +15,7 @@
         option: "{{ item.key }}"
         value: "{{ item.value }}"
         create: false
-        allow_no_value: true
+        allow_no_value: false
         no_extra_spaces: true
       notify: Restart systemd-journald.service
       with_dict: "{{ journald_config }}"

@@ -9,9 +9,12 @@
     - ansible_pkg_mgr == 'apt'
     - ansible_distribution == 'Ubuntu'
   block:
+    - name: Set _apt_sources_list_path
+      ansible.builtin.set_fact:
+        _apt_sources_list_path: "{{ lookup('vars', 'apt_sources_list_path_' + (ansible_distribution | lower) + '_' + ansible_distribution_major_version) }}"
     - name: Replace sources.list
       ansible.builtin.replace:
-        dest: "{{ apt_sources_list_path }}"
+        dest: "{{ _apt_sources_list_path }}"
         regexp: "{{ apt_sources_list_regexp }}"
         replace: "{{ apt_sources_list_replace }}"
         backup: true

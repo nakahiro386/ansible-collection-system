@@ -3,6 +3,8 @@
 locale_locale: "ja_JP.UTF-8"
 locale_lang_packs_ubuntu_22:
   - 'language-pack-ja'
+locale_lang_packs_ubuntu_24:
+  - 'language-pack-ja'
 locale_lang_packs_centos_7: []
 locale_lang_packs_oraclelinux_7: []
 locale_lang_packs_centos_8:
