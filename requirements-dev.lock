@@ -7,7 +7,7 @@
 #   all-features: false
 #   with-sources: false
 
-ansible==9.3.0
+ansible==9.5.1
 ansible-compat==4.1.11
     # via ansible-lint
     # via molecule
