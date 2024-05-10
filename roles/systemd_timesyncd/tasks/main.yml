@@ -22,7 +22,6 @@
         option: "{{ item.key }}"
         value: "{{ item.value }}"
         create: false
-        allow_no_value: true
         no_extra_spaces: true
       notify: Restart systemd-timesyncd.service
       with_dict: "{{ systemd_timesyncd_config }}"
